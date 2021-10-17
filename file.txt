@@ -1,0 +1,3 @@
+si oiseau alors animal
+si voiture alors vehicule
+si banane alors fruit
