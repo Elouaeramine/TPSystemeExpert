@@ -28,13 +28,14 @@ def split_propositions(propositions):
     return base_regles
 
 # This Function will take into params base_faits & base_connaissance and will return any rule ( déclenchable )
+# the search will start from the first element in base_connaissance
 def regles_declenchables(bf , bc ):
     declenchables = []
-    a = [d['premisse'] for d in bc]
-    for base in bf:
-        if base in a:
-            print (f'mawjouda in a${base}')
-            declenchables.append(base)
+    #a = [d['premisse'] for d in bc]
+    for element in bc :
+        if element['premisse'] in bf:
+            print(f'${element} mawjouda fel base faits')
+            declenchables.append(element)
     return declenchables
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
