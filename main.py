@@ -21,10 +21,17 @@ def read_base_faits(filename):
 def split_propositions(propositions):
     base_regles = []
     for proposition in propositions:
-        print(f"{proposition} 22")
-        res = re.findall(r'\w+', proposition)
-        myDict = {"rule": propositions.index(proposition)+1, "premisse": res[1], "conclusion": res[3]}
-        base_regles.append(myDict)
+        if 'et' in proposition:
+            a = proposition.strip().split(' alors ')
+            b =a[0][3::].split(' et ')
+            print(f'proposition feha let ${b}')
+            myDict = {"rule": propositions.index(proposition)+1, "premisse": b, "conclusion":a[1]}
+            base_regles.append(myDict)
+        else:
+            print(f"{proposition} 22")
+            res = re.findall(r'\w+', proposition)
+            myDict = {"rule": propositions.index(proposition)+1, "premisse": res[1], "conclusion": res[3]}
+            base_regles.append(myDict)
     return base_regles
 
 # This Function will take into params base_faits & base_connaissance and will return any rule ( déclenchable )

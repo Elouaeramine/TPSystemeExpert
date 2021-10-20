@@ -1,3 +1,4 @@
 si oiseau alors animal
 si voiture alors vehicule
 si banane alors fruit
+si amine et hamma alors tenin
