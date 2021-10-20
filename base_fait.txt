@@ -1,1 +1,1 @@
-animal,voiture,banane
+plumes,non_vole,nage,noir_et_blanc,mange_herbe
