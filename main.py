@@ -61,7 +61,6 @@ def chainage_avant(base_fait,base_regle,but):
     rd = regles_declenchables(base_fait,base_regle)
 
     while (but not in base_fait) and (rd!=0):
-
         if (len(rd) > 1 ):
             regle = regle_prioritaire(rd)
         elif (len(rd) ==1):
@@ -90,17 +89,58 @@ def chainage_avant(base_fait,base_regle,but):
         print(f'${but} non atteint')
         print("la base des faits est ", base_fait)
 
+def chainage_avant_saturation(base_fait, base_regle):
+    rd = regles_declenchables(base_fait, base_regle)
+    iter = 0
+    faits = generate_base_faits(base_fait)
+    some_table = base_regle
+    while(rd!=0):
+        if (len(rd) > 1 ):
+            regle = regle_prioritaire(rd)
+        elif (len(rd) ==1):
+            regle = rd[0]
+
+        logs = open("logs.txt","a")
+        logs.writelines(f"itration :{iter} ; les regles declenchables sonts : {rd} ; la règle déclenchée est : {regle}; la conclusion : {regle['conclusion']}")
+        logs.close()
+
+        #Remove regle
+        regles = [ i for i in some_table if not (i['rule'] == regle['rule'])]
+        print(regles)
+        faits.append((regle['conclusion'], regle['rule']))
+        base_fait.append(regle['conclusion'])
+
+        f = open('logs.txt', 'a')
+        f.write('la nouvelle base des faits est: ' + str(base_fait) + '\n')
+        f.close()
+
+        some_table=regles
+        rd = regles_declenchables(base_fait, regles)
+        iter+=1
+    print("La base des faits est saturée\n La base des faits est", base_fait)
+    print(faits)
 
 if __name__ == '__main__':
     #Read base connaissance
     p1 = read_propositions("file.txt")
-    #print(split_propositions(p1))
     #Read base faits
     f = read_base_faits("base_fait.txt")
-    #print(f)
-    # Detecter les regles declenchables
-    #print(regles_declenchables(f, split_propositions(p1)))
 
-    #appliquer chainage avant
-    chainage_avant(f,split_propositions(p1),"pingouin")
+    #init log file
+    file =open("logs.txt","w")
+    file.write("")
+    file.close()
+
+    while True:
+        print("1 : Chainage avant avec But \n 2 : Chainage avant avec Saturation \n 3: Quitter")
+        choix = input(">>>")
+        if choix == "1":
+            but  = input("Saisir Votre but")
+            chainage_avant(f ,split_propositions((p1)),but)
+        elif choix== "2" :
+            chainage_avant_saturation(f,split_propositions(p1))
+        elif choix == "3":
+            break
+        else:
+            break
 
